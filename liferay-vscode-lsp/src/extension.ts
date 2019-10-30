@@ -40,8 +40,14 @@ function createServer(): Promise<StreamInfo> {
 		server.listen(() => {
 			let options = { cwd: workspace.rootPath };
 
+			var path = require("path");
+
+			let userProfile = process.env.USERPROFILE;
+
+			let jarPath = path.join(userProfile, '.liferay-ide', 'liferay-properties-server-all.jar');
+
 			let args = [
-				'-jar', "-DliferayLanguageServerPort=" + server.address().port.toString(), '~/.liferay-ide/liferay-properties-server-all.jar'
+				'-jar', "-DliferayLanguageServerPort=" + server.address().port.toString(), jarPath
 			];
 
 			child_process.spawn("java", args, options);
