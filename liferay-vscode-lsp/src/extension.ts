@@ -42,9 +42,11 @@ function createServer(): Promise<StreamInfo> {
 
 			var path = require("path");
 
-			let userProfile = process.env.USERPROFILE;
+			var os = require("os");
 
-			let jarPath = path.join(userProfile, '.liferay-ide', 'liferay-properties-server-all.jar');
+			let userHome = os.homedir();
+
+			let jarPath = path.join(userHome, '.liferay-ide', 'liferay-properties-server-all.jar');
 
 			let args = [
 				'-jar', "-DliferayLanguageServerPort=" + server.address().port.toString(), jarPath
