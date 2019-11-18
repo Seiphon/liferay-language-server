@@ -25,9 +25,11 @@ import com.liferay.ide.languageserver.properties.PropertyPair;
 import com.liferay.ide.languageserver.services.Service;
 import com.liferay.ide.languageserver.util.FileUtil;
 
+import java.io.ByteArrayInputStream;
 import java.io.File;
-import java.io.FileReader;
 import java.io.IOException;
+import java.io.InputStream;
+import java.io.InputStreamReader;
 
 import java.net.URI;
 
@@ -81,7 +83,7 @@ public class PropertiesCompletion {
 
 		String[] lines = null;
 
-		if (currentContent != null) {
+		if ((currentContent != null) && !currentContent.isEmpty()) {
 			lines = FileUtil.readLinesFromString(currentContent);
 		}
 		else {
@@ -135,7 +137,10 @@ public class PropertiesCompletion {
 				Properties props = new Properties();
 
 				try {
-					props.load(new FileReader(_file));
+					InputStream imputStream = new ByteArrayInputStream(
+						currentContent.getBytes());
+
+					props.load(new InputStreamReader(imputStream));
 				}
 				catch (IOException ioe) {
 				}
